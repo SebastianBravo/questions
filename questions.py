@@ -52,8 +52,8 @@ def load_files(directory):
     data = dict()
 
     for file in os.listdir(directory):
-        text = open(os.path.join(directory,file))
-        data[file] = text.read().replace("\n", " ")
+        with open(os.path.join(directory,file), encoding="Latin-1") as f:
+            data[file] = f.read().replace("\n", " ")
     return data
 
 
