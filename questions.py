@@ -75,7 +75,7 @@ def tokenize(document):
     # Remove stopwords
     for word in nltk.word_tokenize(text):
         if not word in nltk.corpus.stopwords.words("english"):
-            words.append(word)
+            words.append(word.lower())
     return words
 
 
@@ -109,7 +109,18 @@ def top_files(query, files, idfs, n):
     to their IDF values), return a list of the filenames of the the `n` top
     files that match the query, ranked according to tf-idf.
     """
-    raise NotImplementedError
+    file_tfidf = dict()
+
+    # Sum of tf-idf values for any word in the query for each file
+    for file in files:
+        total_tfidf = 0
+        for word in query:
+            total_tfidf += files[file].count(word) * idfs[word]
+        file_tfidf[file] = total_tfidf
+
+    # Sort files by its total tf-idf
+    sorted_files = sorted(file_tfidf.items(), key=lambda x: x[1], reverse=True)
+    return [file[0] for file in sorted_files][:n]
 
 
 def top_sentences(query, sentences, idfs, n):

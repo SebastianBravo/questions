@@ -7,4 +7,9 @@ file_words = {
 	for filename in files
 }
 
-print(q.compute_idfs(file_words))
+file_idfs = q.compute_idfs(file_words)
+query = set(q.tokenize(input("Query: ")))
+
+print(q.top_files(query, file_words, file_idfs, n=3))
+
+
