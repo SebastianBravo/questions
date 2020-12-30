@@ -1,6 +1,10 @@
-from questions import load_files, tokenize
+import questions as q
 
-files = load_files("corpus")
+files = q.load_files("corpus")
 
-example = "(and by 1959 were reportedly playing better than the average human)"
-print(tokenize(example))
+file_words = {
+	filename: q.tokenize(files[filename])
+	for filename in files
+}
+
+print(q.compute_idfs(file_words))
