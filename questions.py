@@ -53,9 +53,9 @@ def load_files(directory):
 
     for file in os.listdir(directory):
         text = open(os.path.join(directory,file))
-        data[file] = text.read(100)
+        data[file] = text.read().replace("\n", " ")
     return data
-      
+
 
 def tokenize(document):
     """
