@@ -1,15 +1,12 @@
 import questions as q
 
-files = q.load_files("corpus")
-
-file_words = {
-	filename: q.tokenize(files[filename])
-	for filename in files
+s = {
+	'hola1' : (15, 3),
+	'hola2' : (15, 4),
+	'hola3' : (20, 1)
 }
 
-file_idfs = q.compute_idfs(file_words)
-query = set(q.tokenize(input("Query: ")))
 
-print(q.top_files(query, file_words, file_idfs, n=3))
+sorted_s = sorted(s, key=lambda k: (s[k][0], s[k][1]), reverse=True)
 
-
+print(sorted_s)

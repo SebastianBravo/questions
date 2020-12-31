@@ -73,9 +73,9 @@ def tokenize(document):
     text = document.translate(str.maketrans('', '', string.punctuation))
 
     # Remove stopwords
-    for word in nltk.word_tokenize(text):
+    for word in nltk.word_tokenize(text.lower()):
         if not word in nltk.corpus.stopwords.words("english"):
-            words.append(word.lower())
+            words.append(word)
     return words
 
 
@@ -131,7 +131,22 @@ def top_sentences(query, sentences, idfs, n):
     the query, ranked according to idf. If there are ties, preference should
     be given to sentences that have a higher query term density.
     """
-    raise NotImplementedError
+    s = dict()
+
+    # Calculate the total IDF and the query term density for each sentence
+    for sentence in sentences:
+        total_idf = 0
+        words_in_query = 0
+        for word in query:
+            if word in sentences[sentence]:
+                total_idf += idfs[word]
+                words_in_query += 1
+        density = words_in_query/len(sentences[sentence])
+        s[sentence] = (total_idf,density)
+
+    # Rank sentences acording to matching word measure and query term density
+    sorted_s = sorted(s, key=lambda k: (s[k][0], s[k][1]), reverse=True)
+    return sorted_s[:n]
 
 
 if __name__ == "__main__":
